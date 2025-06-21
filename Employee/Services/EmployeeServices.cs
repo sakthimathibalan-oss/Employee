@@ -15,8 +15,10 @@ namespace Employee.Services
 
         public async Task<List<EmployeeDTO>> GetAllAsync() => await _context.Employees.ToListAsync();
 
-        public async Task<EmployeeDTO?> GetByIdAsync(int id) => await _context.Employees.FindAsync(id);
-
+        public async Task<EmployeeDTO?> GetByNameAsync(string employeeName)
+        {
+            return await _context.Employees.FirstOrDefaultAsync(e => e.EmployeeName == employeeName);
+        }
         public async Task<EmployeeDTO> CreateAsync(EmployeeDTO employee)
         {
             _context.Employees.Add(employee);
@@ -24,25 +26,25 @@ namespace Employee.Services
             return employee;
         }
 
-        public async Task<EmployeeDTO?> UpdateAsync(int id, EmployeeDTO updated)
+        public async Task<EmployeeDTO?> UpdateByNameAsync(string employeeName, EmployeeDTO updatedEmployee)
         {
-            var employee = await _context.Employees.FindAsync(id);
+            var employee = await _context.Employees.FirstOrDefaultAsync(e => e.EmployeeName == employeeName);
             if (employee == null) return null;
 
-            employee.EmployeeName = updated.EmployeeName;
-            employee.FatherName = updated.FatherName;
-            employee.MobileNumber = updated.MobileNumber;
-            employee.Email = updated.Email;
-            employee.Department = updated.Department;
-            employee.Salary = updated.Salary;
-            await _context.SaveChangesAsync();
+            // Update properties as needed
+            employee.FatherName = updatedEmployee.FatherName;
+            employee.Email = updatedEmployee.Email;
+            employee.MobileNumber = updatedEmployee.MobileNumber;
+            employee.Department = updatedEmployee.Department;
+            employee.Salary = updatedEmployee.Salary;
 
+            await _context.SaveChangesAsync();
             return employee;
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteByNameAsync(string employeeName)
         {
-            var employee = await _context.Employees.FindAsync(id);
+            var employee = await _context.Employees.FirstOrDefaultAsync(e => e.EmployeeName == employeeName);
             if (employee == null) return false;
 
             _context.Employees.Remove(employee);

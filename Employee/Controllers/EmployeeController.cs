@@ -18,10 +18,10 @@ namespace Employee.Controllers
         [HttpGet]
         public async Task<IActionResult> Get() => Ok(await _service.GetAllAsync());
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("{employeeName}")]
+        public async Task<IActionResult> GetByName(string employeeName)
         {
-            var emp = await _service.GetByIdAsync(id);
+            var emp = await _service.GetByNameAsync(employeeName);
             return emp == null ? NotFound() : Ok(emp);
         }
 
@@ -29,20 +29,20 @@ namespace Employee.Controllers
         public async Task<IActionResult> Post(EmployeeDTO employee)
         {
             var created = await _service.CreateAsync(employee);
-            return CreatedAtAction(nameof(Get), new { id = created.Id }, created);
+            return CreatedAtAction(nameof(Get), new { employeeName = created.EmployeeName }, created);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, EmployeeDTO employee)
+        [HttpPut("{employeeName}")]
+        public async Task<IActionResult> UpdateByName(string employeeName, EmployeeDTO employee)
         {
-            var updated = await _service.UpdateAsync(id, employee);
+            var updated = await _service.UpdateByNameAsync(employeeName, employee);
             return updated == null ? NotFound() : Ok(updated);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete("{employeeName}")]
+        public async Task<IActionResult> DeleteByName(string employeeName)
         {
-            var deleted = await _service.DeleteAsync(id);
+            var deleted = await _service.DeleteByNameAsync(employeeName);
             return deleted ? NoContent() : NotFound();
         }
     }

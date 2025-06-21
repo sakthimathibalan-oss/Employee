@@ -13,22 +13,19 @@ namespace Employee.Models
         [Column(TypeName = "varchar(50)")]
         public string? EmployeeName { get; set; }
 
-        [Required]
         [StringLength(50)]
         [Column(TypeName = "varchar(50)")]
         public string? FatherName { get; set; }
 
-        [Required]
+       
         [StringLength(30)]
         [Column(TypeName = "varchar(30)")]
         public string? Email { get; set; }
 
-        [Required]
         [StringLength(30)]
         [Column(TypeName = "varchar(30)")]
         public string? MobileNumber { get; set; }
 
-        [Required]
         [StringLength(30)]
         [Column(TypeName = "varchar(30)")]
         public string? Department { get; set; }
